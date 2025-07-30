@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  webapi:
+    image: devops-k8s-dotnet-project:latest
+    build:
+      context: ./docker
+      dockerfile: Dockerfile
+    ports:
+      - "5000:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=employeeDb;User Id=sa;Password=Admin@123;
+    depends_on:
+      - sqlserver
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      - SA_PASSWORD=Admin@123
+      - ACCEPT_EULA=Y
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+
+volumes:
+  sqlserver-data:

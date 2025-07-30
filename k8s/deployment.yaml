@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: employeeapp-webapi
+  namespace: devops-k8s-dotnet-project
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: employeeapp-webapi
+  template:
+    metadata:
+      labels:
+        app: employeeapp-webapi
+    spec:
+      containers:
+      - name: employeeapp-webapi
+        image: jitenderkundu/devops-k8s-dotnet-project:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: ConnectionStrings__DefaultConnection
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: connection-string
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Production"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+      restartPolicy: Always
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
