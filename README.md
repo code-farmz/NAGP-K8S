@@ -10,6 +10,11 @@ This project is a Kubernetes-based DevOps assignment that implements a .NET Web 
 - kubectl configured to connect to your cluster
 - .NET Core SDK (for local development)
 
+### Docker hub repo url
+```
+https://hub.docker.com/r/jitenderkundu/devops-k8s-dotnet-project
+```
+
 ### Deployment
 
 1. **Clone repo**
